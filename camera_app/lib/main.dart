@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 List<CameraDescription>? cameras;
 
@@ -18,6 +19,7 @@ class CameraApp extends StatefulWidget {
 
 class _CameraAppState extends State<CameraApp> {
   CameraController? controller;
+  String? barcodeResult;
 
   @override
   void initState() {
@@ -52,11 +54,41 @@ class _CameraAppState extends State<CameraApp> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null || !controller!.value.isInitialized) {
-      return const Center(child: CircularProgressIndicator());
-    }
     return MaterialApp(
-      home: CameraPreview(controller!),
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Barcode Scanner')),
+        body: Column(
+          children: [
+            Expanded(
+              child: MobileScanner(
+                controller: MobileScannerController(
+                  detectionSpeed: DetectionSpeed.normal,
+                  facing: CameraFacing.back,
+                  torchEnabled: false,
+                ),
+                onDetect: (capture) {
+                  final barcodes = capture.barcodes;
+                  if (barcodes.isNotEmpty) {
+                    setState(() {
+                      barcodeResult = barcodes.first.rawValue;
+                    });
+                    print('Barcode found! ${barcodes.first.rawValue}');
+                  }
+                },
+              ),
+            ),
+            if (barcodeResult != null)
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                color: Colors.white,
+                child: Text(
+                  'Scanned Barcode: $barcodeResult',
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
