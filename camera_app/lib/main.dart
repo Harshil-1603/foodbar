@@ -28,6 +28,7 @@ class _CameraAppState extends State<CameraApp> {
   bool _isLoading = false;
   bool _productNotFound = false;
   String? productImageUrl;
+  List<String>? tracesTags;
 
   Future<void> fetchProduct(String barcode) async {
     setState(() {
@@ -50,6 +51,12 @@ class _CameraAppState extends State<CameraApp> {
           ingredientsText = product['ingredients_text_en'] ?? 'No ingredients listed';
           nutriments = product['nutriments'] as Map<String, dynamic>?;
           productImageUrl = product['image_front_url'] as String?;
+          // Store traces_tags for internal use, not displayed on frontend
+          if (product['traces_tags'] is List) {
+            tracesTags = List<String>.from(product['traces_tags']);
+          } else {
+            tracesTags = null;
+          }
         });
       } else {
         setState(() {
@@ -294,6 +301,7 @@ class _CameraAppState extends State<CameraApp> {
                                     nutriments = null;
                                     _productNotFound = false; // Reset when scanning new barcode
                                     productImageUrl = null; // Clear image on new scan
+                                    tracesTags = null; // Clear tracesTags on new scan
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
