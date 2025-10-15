@@ -1,0 +1,48 @@
+# .gitignore
+
+# Generic
+.DS_Store
+.env
+.history
+
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+
+# Build artifacts
+/build/
+/camera_app/build/
+/camera_app/.dart_tool/
+/camera_app/.flutter-plugins*
+/camera_app/.packages
+/camera_app/ios/.symlinks/
+/camera_app/android/.gradle/
+/camera_app/**/GeneratedPluginRegistrant.h
+/camera_app/**/GeneratedPluginRegistrant.m
+/camera_app/**/GeneratedPluginRegistrant.swift
+
+# Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+/ios/.symlinks/
+/android/.gradle/
+
+# Android specific
+/android/local.properties
+/android/captures/
+
+# iOS specific
+/ios/.generated/
+
+# VS Code specific (if applicable)
+.vscode/
+
+# macOS specific
+.DS_Store
+
+# Windows specific
+thumbs.db
